@@ -44,7 +44,7 @@ public class App {
 
     // New logic: Simple rule simulation to verify system readiness
     public static boolean validateEnvironment() {
-        String os = getOperatingSystemName().toLowerCase();
+        String os = getOperatingSystemName().toLowerCase(java.util.Locale.ROOT);
         // Returns true if running on a standard OS environment
         return os.contains("linux") || os.contains("mac") || os.contains("windows");
     }
