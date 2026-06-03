@@ -44,9 +44,26 @@ public class App {
 
     // New logic: Simple rule simulation to verify system readiness
     public static boolean validateEnvironment() {
-        String os = getOperatingSystemName().toLowerCase(java.util.Locale.ROOT);
-        // Returns true if running on a standard OS environment
-        return os.contains("linux") || os.contains("mac") || os.contains("windows");
+        String osName = getOperatingSystemName();
+
+        if (osName == null || osName.trim().isEmpty()) {
+            System.out.println("Warning: Unable to determine operating system. Proceeding with environment validation by default.");
+            return true;
+        }
+
+        String os = osName.toLowerCase();
+
+        // Explicitly allow common OS families
+        if (os.contains("linux") || os.contains("mac") || os.contains("windows")) {
+            return true;
+        }
+
+        // For less common or container-specific OS names, log a warning but do not hard-fail
+        System.out.println(
+            "Warning: Detected unrecognized operating system '" + osName +
+            "'. Proceeding, but some features may not be fully supported."
+        );
+        return true;
     }
 
     // Helper method to standardise text console logging outputs
